@@ -28,15 +28,14 @@ def add_user():
     c = con.cursor()
 
 #    c.execute("""CREATE TABLE users (
-#        id integer,
 #        name text,
 #        inf text
 #    )""")
 
-#    c.execute("INSERT INTO users VALUES (3, 'Махест', 'Самый лучший')")
+#    c.execute("INSERT INTO users VALUES ('SEREGA', '3D')")
 
     c.execute("SELECT * FROM users ")
-    print(c.fetchone()[1])
+    print(c.fetchmany(5))
 
 
     con.commit()

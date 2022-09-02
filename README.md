@@ -1,2 +1,2 @@
 # lernpy1
-  Forst programm by Axime
+  First programm by Axime
