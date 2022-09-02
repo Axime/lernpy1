@@ -3,3 +3,4 @@ import maincommandslist
 programm_work = True
 while programm_work:
     maincommandslist.input_command()
+#работает?
