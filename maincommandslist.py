@@ -68,10 +68,13 @@ def add_user(command: str):
 
 
 def create_table(command: str):
+
     table_name = command
     conn = sqlite3.connect("users.db")
     c = conn.cursor()
+
     c.execute(f''' SELECT count(name) FROM sqlite_master WHERE type='table' AND name='{table_name}' ''')
+
     if c.fetchone()[0] == 1:
         print(f'Таблица {table_name} уже существует.')
     else:
@@ -81,11 +84,25 @@ def create_table(command: str):
                 inf text            
             )
         """)
+
         print(f'Таблица {table_name} создана')
 
-def gen_code():
-    pass
 
+    print('Список таблиц\n')
+    c.execute("SELECT name from sqlite_master where type= 'table' \n")
+    print(c.fetchall())
+
+
+def rand_int(command: str):
+    if command is None:
+        cod = random.randint(1, 500000)
+    else:
+        cod = random.randint(1, int(command))
+    print(cod)
+    return cod
+
+def clear_lines_table(command: str):
+    pass
 
 
 #command list
@@ -93,5 +110,7 @@ commands_function = {
     'help': help_c,
     'list': list_users,
     'add': add_user,
-    'create_table': create_table
+    'create_table': create_table,
+    'rand': rand_int,
+    'clear_table': clear_lines_table
 }
