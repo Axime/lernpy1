@@ -1,5 +1,5 @@
 import sqlite3
-
+import random
 
 def input_command():
     print('Введите команду\n')
@@ -35,8 +35,8 @@ def list_users(command: str):
         c.execute("SELECT rowid, * FROM users")
     else:
         try:
-            op, value = command.split()
-            c.execute(f"SELECT rowid, * from users WHERE rowid {op} {value}")
+            op, value, table = command.split()
+            c.execute(f"SELECT rowid, * from {table} WHERE rowid {op} {value}")
         except Exception as e:
             print(e)
 
@@ -59,7 +59,7 @@ def add_user(command: str):
     print(f'Запись {user} {inf} добавлена')
     # После названия таблицы идут условия выборки
     # where
-    c.execute("SELECT rowid, * FROM users WHERE rowid >= 1")
+    c.execute("SELECT rowid, * FROM users")
     print(c.fetchall())
 
     con.commit()
@@ -68,9 +68,27 @@ def add_user(command: str):
 
 
 def create_table(command: str):
+    table_name = command
+    conn = sqlite3.connect("users.db")
+    c = conn.cursor()
+    c.execute(f''' SELECT count(name) FROM sqlite_master WHERE type='table' AND name='{table_name}' ''')
+    if c.fetchone()[0] == 1:
+        print(f'Таблица {table_name} уже существует.')
+    else:
+        c.execute(f"""
+            CREATE TABLE {table_name} (
+                name text,
+                inf text            
+            )
+        """)
+        print(f'Таблица {table_name} создана')
+
+def gen_code():
     pass
 
 
+
+#command list
 commands_function = {
     'help': help_c,
     'list': list_users,
