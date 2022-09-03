@@ -39,7 +39,7 @@ def add_user():
 #        inf text
 #    )""")
 
-    c.execute("INSERT INTO users VALUES ('?', '?')", (str(user), str(inf)))
+    c.execute("INSERT INTO users VALUES ('?', '?'), ("+(str(user)+","+str(inf)+")")) #<========== ТУТА
 
 
     print(f'Запись {user} {inf} добавлена')
