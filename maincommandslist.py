@@ -1,64 +1,79 @@
 import sqlite3
-command = ""
-def input_command ():
-    global command
-    print('Введите команду\n')
-    command = input().split()
-    if str(command[0]) in fun:
-        fun[command[0]]()
-    else:
-        print(f'Команда {command} не найдена\n')
-    return command
 
-def help_c():
+
+def input_command():
+    print('Введите команду\n')
+
+    command = input().split(maxsplit=1)
+    name = command[0]
+    function = commands_function.get(name)
+
+    try:
+        body = command[1]
+    except IndexError:
+        body = None
+
+    if function is None:
+        print(f'Команда {name} не найдена\n')
+        return
+
+    function(body)
+
+
+def help_c(command: str):
     print('Это небольшая программа для регистрации и идентификации пользователей посредством ID ключей by Axime')
     print("Список команд:")
-    for keys in fun.keys():
+    for keys in commands_function.keys():
         print(keys)
 
-def list_users():
+
+def list_users(command: str):
     con = sqlite3.connect('users.db')
     c = con.cursor()
-    c.execute("SELECT rowid, * FROM users")
+
+    if command is None:
+        c.execute("SELECT rowid, * FROM users")
+    else:
+        try:
+            op, value = command.split()
+            c.execute(f"SELECT rowid, * from users WHERE rowid {op} {value}")
+        except Exception as e:
+            print(e)
 
     items = c.fetchall()
-    for item  in items:
-        print(str(item[0]) + " " + item[1] + " " + item[2])
-    con.commit()
+    for item in items:
+        id, name, work = item
+        print(f'{id} {name} {work}')
+
     con.close()
 
-def add_user():
-    user = str(command[1])
-    inf = str(command[2])
+
+def add_user(command: str):
+    user, inf = command.split(' ')
     con = sqlite3.connect('users.db')
 
     c = con.cursor()
 
-#    c.execute("""CREATE TABLE users (
-#        name text,
-#        inf text
-#    )""")
-
-    c.execute("INSERT INTO users VALUES ('?', '?'), ("+(str(user)+","+str(inf)+")")) #<========== ТУТА
-
+    c.execute("INSERT INTO users VALUES (?, ?)", (user, inf))
 
     print(f'Запись {user} {inf} добавлена')
-#После названия таблицы идут условия выборки
-#where
+    # После названия таблицы идут условия выборки
+    # where
     c.execute("SELECT rowid, * FROM users WHERE rowid >= 1")
     print(c.fetchall())
 
     con.commit()
 
     con.close()
-def create_table(name_table):
+
+
+def create_table(command: str):
     pass
 
-fun = {
+
+commands_function = {
     'help': help_c,
     'list': list_users,
     'add': add_user,
-    'create table': create_table
+    'create_table': create_table
 }
-
-
