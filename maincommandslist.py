@@ -39,6 +39,7 @@ def list_users(command: str):
             print(e)
 
     items = c.fetchall()
+
     for item in items:
         id, name, work = item
         print(f'{id} {name} {work}')
@@ -47,28 +48,32 @@ def list_users(command: str):
 
 
 def add_user(command: str):
-    try:
-        user, inf = command.split(' ')
-    except Exception as e:
-        print(e)
 
-    con = sqlite3.connect('users.db')
-
-    c = con.cursor()
     if command is None:
-        print(f"Введите данные пользователя (add имя информация)\n")
+        print('Введите имя и информацию пользователя')
     else:
-        c.execute("INSERT INTO users VALUES (?, ?)", (user, inf))
-        print(f'Запись {user} {inf} добавлена')
+        try:
+            user, inf = command.split(' ')
+        except Exception as e:
+            print(e)
 
-    # После названия таблицы идут условия выборки
-    # where
-    c.execute("SELECT rowid, * FROM users")
-    print(c.fetchall())
+        con = sqlite3.connect('users.db')
 
-    con.commit()
+        c = con.cursor()
+        if command is None:
+            print(f"Введите данные пользователя (add имя информация)\n")
+        else:
+            c.execute("INSERT INTO users VALUES (?, ?)", (user, inf))
+            print(f'Запись {user} {inf} добавлена')
 
-    con.close()
+        # После названия таблицы идут условия выборки
+        # where
+        c.execute("SELECT rowid, * FROM users")
+        print(c.fetchall())
+
+        con.commit()
+
+        con.close()
 
 
 def create_table(command: str):
@@ -96,7 +101,29 @@ def create_table(command: str):
     c.execute("SELECT name from sqlite_master where type= 'table' \n")
     print(c.fetchall())
 
+def clear_table(command: str):
+    if command is None:
+        print('Введите название таблицы')
+    else:
+        try:
+            table_name = command
+            conn = sqlite3.connect('users.db')
+            c = conn.cursor()
+            c.execute(f'DROP TABLE IF EXISTS {table_name}')
+            print(f'Таблица {table_name} удалена')
+            conn.commit()
+            conn.close()
+        except Exception as e:
+            print(e)
 
+
+def table_list(command: str):
+    conn = sqlite3.connect('users.db')
+    c = conn.cursor()
+    print('Список таблиц')
+    c.execute("SELECT name from sqlite_master where type= 'table' ")
+    print(c.fetchall())
+    conn.close()
 def rand_int(command: str):
     if command is None:
         cod = random.randint(1, 500000)
@@ -124,5 +151,7 @@ commands_function = {
     'add': add_user,
     'create_table': create_table,
     'rand': rand_int,
-    'clear_table': clear_lines_table
+    'clear_lines_table': clear_lines_table,
+    'table_list': table_list,
+    'del_table': clear_table
 }
