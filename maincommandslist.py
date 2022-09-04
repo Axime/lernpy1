@@ -19,13 +19,11 @@ def input_command():
 
     function(body)
 
-
 def help_c(command: str):
     print('Это небольшая программа для регистрации и идентификации пользователей посредством ID ключей by Axime')
     print("Список команд:")
     for keys in commands_function.keys():
         print(keys)
-
 
 def list_users(command: str):
     con = sqlite3.connect('users.db')
@@ -49,14 +47,20 @@ def list_users(command: str):
 
 
 def add_user(command: str):
-    user, inf = command.split(' ')
+    try:
+        user, inf = command.split(' ')
+    except Exception as e:
+        print(e)
+
     con = sqlite3.connect('users.db')
 
     c = con.cursor()
+    if command is None:
+        print(f"Введите данные пользователя (add имя информация)\n")
+    else:
+        c.execute("INSERT INTO users VALUES (?, ?)", (user, inf))
+        print(f'Запись {user} {inf} добавлена')
 
-    c.execute("INSERT INTO users VALUES (?, ?)", (user, inf))
-
-    print(f'Запись {user} {inf} добавлена')
     # После названия таблицы идут условия выборки
     # where
     c.execute("SELECT rowid, * FROM users")
@@ -102,7 +106,15 @@ def rand_int(command: str):
     return cod
 
 def clear_lines_table(command: str):
-    pass
+    conn = sqlite3.connect("users.db")
+    c = conn.cursor()
+    table_name = command
+    if command is None:
+        print("Введите название таблицы (clear_table название таблицы)")
+    else:
+        c.execute(f"DELETE FROM {table_name}")
+        print(f"Из таблицы {table_name} удалено {c.rowcount} строк")
+        conn.commit()
 
 
 #command list
