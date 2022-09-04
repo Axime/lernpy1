@@ -46,7 +46,6 @@ def list_users(command: str):
 
     con.close()
 
-
 def add_user(command: str):
 
     if command is None:
@@ -74,7 +73,6 @@ def add_user(command: str):
         con.commit()
 
         con.close()
-
 
 def create_table(command: str):
 
@@ -116,7 +114,6 @@ def clear_table(command: str):
         except Exception as e:
             print(e)
 
-
 def table_list(command: str):
     conn = sqlite3.connect('users.db')
     c = conn.cursor()
@@ -124,6 +121,7 @@ def table_list(command: str):
     c.execute("SELECT name from sqlite_master where type= 'table' ")
     print(c.fetchall())
     conn.close()
+
 def rand_int(command: str):
     if command is None:
         cod = random.randint(1, 500000)
@@ -137,12 +135,11 @@ def clear_lines_table(command: str):
     c = conn.cursor()
     table_name = command
     if command is None:
-        print("Введите название таблицы (clear_table название таблицы)")
+        print("Введите название таблицы (ПРИМЕР: clear_table название таблицы)")
     else:
         c.execute(f"DELETE FROM {table_name}")
         print(f"Из таблицы {table_name} удалено {c.rowcount} строк")
         conn.commit()
-
 
 #command list
 commands_function = {
