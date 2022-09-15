@@ -1,6 +1,7 @@
 import sqlite3
 import random
 
+
 def input_command():
     print('Введите команду\n')
 
@@ -19,11 +20,13 @@ def input_command():
 
     function(body)
 
+
 def help_c(command: str):
     print('Это небольшая программа для регистрации и идентификации пользователей посредством ID ключей by Axime')
     print("Список команд:")
     for keys in commands_function.keys():
         print(keys)
+
 
 def list_users(command: str):
     con = sqlite3.connect('users.db')
@@ -46,8 +49,8 @@ def list_users(command: str):
 
     con.close()
 
-def add_user(command: str):
 
+def add_user(command: str):
     if command is None:
         print('Введите имя и информацию пользователя')
     else:
@@ -74,8 +77,8 @@ def add_user(command: str):
 
         con.close()
 
-def create_table(command: str):
 
+def create_table(command: str):
     table_name = command
     conn = sqlite3.connect("users.db")
     c = conn.cursor()
@@ -94,10 +97,10 @@ def create_table(command: str):
 
         print(f'Таблица {table_name} создана')
 
-
     print('Список таблиц\n')
     c.execute("SELECT name from sqlite_master where type= 'table' \n")
     print(c.fetchall())
+
 
 def clear_table(command: str):
     if command is None:
@@ -114,6 +117,7 @@ def clear_table(command: str):
         except Exception as e:
             print(e)
 
+
 def table_list(command: str):
     conn = sqlite3.connect('users.db')
     c = conn.cursor()
@@ -121,6 +125,7 @@ def table_list(command: str):
     c.execute("SELECT name from sqlite_master where type= 'table' ")
     print(c.fetchall())
     conn.close()
+
 
 def rand_int(command: str):
     if command is None:
@@ -130,18 +135,20 @@ def rand_int(command: str):
     print(cod)
     return cod
 
+
 def clear_lines_table(command: str):
     conn = sqlite3.connect("users.db")
     c = conn.cursor()
     table_name = command
     if command is None:
-        print("Введите название таблицы (ПРИМЕР: clear_table название таблицы)")
+        print("Введите название таблицы (ПРИМЕР: clear_table название_таблицы)")
     else:
         c.execute(f"DELETE FROM {table_name}")
         print(f"Из таблицы {table_name} удалено {c.rowcount} строк")
         conn.commit()
 
-#command list
+
+# command list
 commands_function = {
     'help': help_c,
     'list': list_users,
