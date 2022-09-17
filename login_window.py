@@ -50,7 +50,7 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
 
-        self.give_logpass()
+        """self.give_logpass()"""
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -59,11 +59,11 @@ class Ui_MainWindow(object):
         self.password_line.setPlaceholderText(_translate("MainWindow", "Password"))
         self.login_button.setText(_translate("MainWindow", "Login"))
 
-    def give_logpass(self):
+    """def give_logpass(self):
         self.login_button.clicked.connect(self.click)
 
     def click(self):
         login = self.login_line.text()
         password = self.password_line.text()
         auth = Auth()
-        auth.login(login,password)
+        auth.login(login,password)"""
