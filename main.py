@@ -29,6 +29,11 @@ def openDBeditor():
         DBEditro.show()
         print("Open DBEditor")
 
+        def op_file(sourse = None):
+            check.open_database_file(sourse)
+
+        uibd.open_file_button.clicked.connect(lambda: op_file())
+
 
 ui.login_button.clicked.connect(openDBeditor)
 
