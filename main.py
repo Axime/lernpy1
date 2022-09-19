@@ -23,7 +23,6 @@ def openDBeditor():
 
     if check.check(login, password):
         global DBEditro
-
         DBEditro = QtWidgets.QMainWindow()
         uibd = Ui_DBEditor()
         uibd.setupUi(DBEditro)
@@ -33,8 +32,6 @@ def openDBeditor():
         print("Open DBEditor")
 
         def op_file(sourse = None):
-            """check.open_database_file(sourse)"""
-
             uibd.tableWidget.setRowCount(4)
             uibd.tableWidget.setColumnCount(4)
             uibd.tableWidget.setHorizontalHeaderLabels(["rrrr", "werwer", "werwerasdasd", "fghfghfh"])
