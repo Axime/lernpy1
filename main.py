@@ -1,5 +1,8 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
+import sqlite3
+from PyQt5.QtWidgets import QHeaderView, QTableWidgetItem
+
 from dbeditor import Ui_DBEditor
 from login_window import Ui_MainWindow
 from DB import DBclass
@@ -30,7 +33,13 @@ def openDBeditor():
         print("Open DBEditor")
 
         def op_file(sourse = None):
-            check.open_database_file(sourse)
+            """check.open_database_file(sourse)"""
+
+            uibd.tableWidget.setRowCount(4)
+            uibd.tableWidget.setColumnCount(4)
+            uibd.tableWidget.setHorizontalHeaderLabels(["rrrr", "werwer", "werwerasdasd", "fghfghfh"])
+
+            uibd.tableWidget.setItem(0,0, QTableWidgetItem("argksjdcgnkldhklcjz,cg"))
 
         uibd.open_file_button.clicked.connect(lambda: op_file())
 
